@@ -3,22 +3,26 @@
     {
       "id": 1,
       "name": "Chuột Logitech",
-      "price": 350000
+      "price": 350000,
+      "image": "images/chuot.jpg"
     },
     {
       "id": 2,
       "name": "Bàn phím cơ",
-      "price": 1200000
+      "price": 1200000,
+      "image": "images/banphim.jpg"
     },
     {
       "id": 3,
       "name": "Tai nghe Gaming",
-      "price": 800000
+      "price": 800000,
+      "image": "images/tainghe.jpg"
     },
     {
       "id": 4,
       "name": "Màn hình 24 inch",
-      "price": 3200000
+      "price": 3200000,
+      "image": "images/manhinh.jpg"
     }
   ]
 }
