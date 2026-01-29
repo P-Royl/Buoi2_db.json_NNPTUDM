@@ -2,35 +2,31 @@
 # 2280602338
 
 
-# Demo sử dụng JSON trong Ngôn ngữ Phát triển Ứng dụng
+# Bài tập sử dụng db.json – Ngôn ngữ Phát triển Ứng dụng
 
-## Giới thiệu
-Đây là bài tập minh họa cho môn **Ngôn ngữ Phát triển Ứng dụng mới**.
-Ứng dụng web sử dụng file `db.json` để mô phỏng cơ sở dữ liệu,
-kết hợp HTML và JavaScript để đọc dữ liệu và hiển thị lên giao diện.
+## Mô tả
+Ứng dụng web sử dụng file db.json lưu trữ dữ liệu sản phẩm.
+Dữ liệu được load từ GitHub và hiển thị lên giao diện HTML bằng JavaScript.
 
-## Mục tiêu
-- Làm quen với định dạng JSON
-- Sử dụng JavaScript (Fetch API) để đọc dữ liệu
-- Hiển thị dữ liệu động lên giao diện web
-
-## Chức năng
-- Đọc dữ liệu từ file `db.json` lưu trữ trên GitHub
-- Hiển thị danh sách sinh viên
-- Tìm kiếm sinh viên theo tên
+## Yêu cầu thực hiện
+- Sử dụng db.json trên GitHub
+- Load dữ liệu ra giao diện
+- Có thanh tìm kiếm theo tên (onChanged)
+- Sắp xếp theo tên và giá (tăng / giảm)
+- Sử dụng Bootstrap để xây dựng bảng quản lý
 
 ## Công nghệ sử dụng
 - HTML
-- CSS
 - JavaScript
 - JSON
+- Bootstrap 5
 - GitHub
 
-## Hướng dẫn chạy chương trình
-1. Clone repository từ GitHub
-2. Mở file `index.html` bằng trình duyệt
-3. Dữ liệu được load từ file `db.json` thông qua Fetch API
+## Hướng dẫn chạy
+1. Clone repository
+2. Mở file index.html
+3. Dữ liệu được load từ db.json thông qua Fetch API
 
 ## Sinh viên thực hiện
 - Họ tên: Trương Hoàng Phi
-- Môn học: Ngôn Ngữ Phát Triển Ứng Dụng Mới
+- Môn học: Ngôn ngữ Phát triển Ứng dụng

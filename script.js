@@ -1,42 +1,57 @@
-const API_URL = "https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/db.json";
+const API_URL = "https://raw.githubusercontent.com/P-Royl/Buoi2_db.json_NNPTUDM/main/db.json";
 
-let students = [];
+let products = [];
+let displayList = [];
 
 fetch(API_URL)
-    .then(res => {
-        if (!res.ok) {
-            throw new Error("Không load được db.json");
-        }
-        return res.json();
-    })
+    .then(res => res.json())
     .then(data => {
-        students = data.students;
-        render(students);
-    })
-    .catch(err => {
-        console.error("LỖI:", err);
+        products = data.products;
+        displayList = [...products];
+        render(displayList);
     });
 
 function render(list) {
-    const tbody = document.getElementById("student-table");
+    const tbody = document.getElementById("product-table");
     tbody.innerHTML = "";
 
-    list.forEach(s => {
+    list.forEach(p => {
         tbody.innerHTML += `
             <tr>
-                <td>${s.id}</td>
-                <td>${s.name}</td>
-                <td>${s.class}</td>
-                <td>${s.email}</td>
+                <td>${p.id}</td>
+                <td>${p.name}</td>
+                <td>${p.price.toLocaleString()}</td>
             </tr>
         `;
     });
 }
 
-document.getElementById("search").addEventListener("input", e => {
-    const keyword = e.target.value.toLowerCase();
-    const filtered = students.filter(s =>
-        s.name.toLowerCase().includes(keyword)
+/* 1️⃣ onChanged - tìm theo tên */
+function onChanged(keyword) {
+    displayList = products.filter(p =>
+        p.name.toLowerCase().includes(keyword.toLowerCase())
     );
-    render(filtered);
-});
+    render(displayList);
+}
+
+/* 2️⃣ Sắp xếp theo tên */
+function sortNameAsc() {
+    displayList.sort((a, b) => a.name.localeCompare(b.name));
+    render(displayList);
+}
+
+function sortNameDesc() {
+    displayList.sort((a, b) => b.name.localeCompare(a.name));
+    render(displayList);
+}
+
+/* 2️⃣ Sắp xếp theo giá */
+function sortPriceAsc() {
+    displayList.sort((a, b) => a.price - b.price);
+    render(displayList);
+}
+
+function sortPriceDesc() {
+    displayList.sort((a, b) => b.price - a.price);
+    render(displayList);
+}
