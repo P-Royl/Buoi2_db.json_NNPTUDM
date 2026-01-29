@@ -1,0 +1,22 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "Nguyễn Văn A",
+      "class": "CNTT01",
+      "email": "a@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Trần Thị B",
+      "class": "CNTT02",
+      "email": "b@gmail.com"
+    },
+    {
+      "id": 3,
+      "name": "Lê Văn C",
+      "class": "CNTT01",
+      "email": "c@gmail.com"
+    }
+  ]
+}
