@@ -26,7 +26,7 @@ function render(list) {
     });
 }
 
-/* 1️⃣ onChanged - tìm theo tên */
+
 function onChanged(keyword) {
     displayList = products.filter(p =>
         p.name.toLowerCase().includes(keyword.toLowerCase())
@@ -34,7 +34,6 @@ function onChanged(keyword) {
     render(displayList);
 }
 
-/* 2️⃣ Sắp xếp theo tên */
 function sortNameAsc() {
     displayList.sort((a, b) => a.name.localeCompare(b.name));
     render(displayList);
@@ -45,7 +44,7 @@ function sortNameDesc() {
     render(displayList);
 }
 
-/* 2️⃣ Sắp xếp theo giá */
+
 function sortPriceAsc() {
     displayList.sort((a, b) => a.price - b.price);
     render(displayList);
