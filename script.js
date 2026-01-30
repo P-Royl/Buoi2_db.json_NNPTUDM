@@ -1,62 +1,152 @@
-const API_URL = "https://raw.githubusercontent.com/P-Royl/Buoi2_db.json_NNPTUDM/main/db.json";
+const API = "http://localhost:3000";
+let selectedProductId = null;
 
-let products = [];
-let displayList = [];
+/* ===== UTIL ===== */
+function maxId(list) {
+  return Math.max(0, ...list.map(i => Number(i.id)));
+}
 
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    products = data.products;
-    displayList = [...products];
-    render(displayList);
-  })
-  .catch(err => console.error("Lỗi load JSON:", err));
+/* ===== LOAD PRODUCTS (HIỂN THỊ CẢ XOÁ MỀM) ===== */
+async function loadProducts() {
+  const res = await fetch(`${API}/products`);
+  const products = await res.json();
 
-function render(list) {
   const tbody = document.getElementById("product-table");
   tbody.innerHTML = "";
 
-  list.forEach(p => {
+  products.forEach(p => {
     tbody.innerHTML += `
-      <tr>
+      <tr class="${p.isDeleted ? "deleted" : ""}"
+          onclick="selectProduct('${p.id}')">
         <td>${p.id}</td>
-        <td>
-          <img src="${p.image}" 
-               width="60" height="60"
-               class="rounded border">
-        </td>
+        <td><img src="${p.image}" width="60"></td>
         <td>${p.name}</td>
         <td>${p.price.toLocaleString()} đ</td>
+        <td>
+          ${p.isDeleted ? "" :
+            `<button class="btn btn-danger btn-sm"
+              onclick="event.stopPropagation(); deleteProduct('${p.id}')">
+              X
+            </button>`
+          }
+        </td>
       </tr>
     `;
   });
 }
+loadProducts();
 
-function onChanged(keyword) {
-  displayList = products.filter(p =>
-    p.name.toLowerCase().includes(keyword.toLowerCase())
-  );
-  render(displayList);
+/* ===== ADD PRODUCT (ID = max + 1, CHUỖI) ===== */
+async function addProduct(name, price, image) {
+  const res = await fetch(`${API}/products`);
+  const products = await res.json();
+
+  const newId = (maxId(products) + 1).toString();
+
+  await fetch(`${API}/products`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      id: newId,
+      name,
+      price,
+      image,
+      isDeleted: false
+    })
+  });
+
+  loadProducts();
 }
 
-
-function sortNameAsc() {
-  displayList.sort((a, b) => a.name.localeCompare(b.name));
-  render(displayList);
+/* ===== DELETE PRODUCT (SOFT) ===== */
+async function deleteProduct(id) {
+  await fetch(`${API}/products/${id}`, {
+    method: "PATCH",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ isDeleted: true })
+  });
+  loadProducts();
 }
 
-function sortNameDesc() {
-  displayList.sort((a, b) => b.name.localeCompare(a.name));
-  render(displayList);
+/* ===== SELECT PRODUCT ===== */
+function selectProduct(id) {
+  selectedProductId = id;
+  document.getElementById("comment-title").innerText =
+    `Comments (Product ID = ${id})`;
+  loadComments();
 }
 
+/* ===== LOAD COMMENTS (HIỂN THỊ XOÁ MỀM) ===== */
+async function loadComments() {
+  const res = await fetch(`${API}/comments?productId=${selectedProductId}`);
+  const comments = await res.json();
 
-function sortPriceAsc() {
-  displayList.sort((a, b) => a.price - b.price);
-  render(displayList);
+  const ul = document.getElementById("comment-list");
+  ul.innerHTML = "";
+
+  comments.forEach(c => {
+    ul.innerHTML += `
+      <li class="list-group-item d-flex justify-content-between
+          ${c.isDeleted ? "deleted" : ""}">
+        ${c.content}
+        ${c.isDeleted ? "" :
+          `<div>
+            <button class="btn btn-sm btn-warning me-1"
+              onclick="editComment('${c.id}')">Sửa</button>
+            <button class="btn btn-sm btn-danger"
+              onclick="deleteComment('${c.id}')">X</button>
+          </div>`
+        }
+      </li>
+    `;
+  });
 }
 
-function sortPriceDesc() {
-  displayList.sort((a, b) => b.price - a.price);
-  render(displayList);
+/* ===== ADD COMMENT (ID TỰ TĂNG, CHUỖI) ===== */
+async function addComment() {
+  const content = document.getElementById("cmt").value;
+  if (!content || !selectedProductId) return;
+
+  const res = await fetch(`${API}/comments`);
+  const comments = await res.json();
+  const newId = (maxId(comments) + 1).toString();
+
+  await fetch(`${API}/comments`, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      id: newId,
+      productId: selectedProductId,
+      content,
+      isDeleted: false
+    })
+  });
+
+  document.getElementById("cmt").value = "";
+  loadComments();
+}
+
+/* ===== UPDATE COMMENT ===== */
+async function editComment(id) {
+  const newContent = prompt("Sửa comment:");
+  if (!newContent) return;
+
+  await fetch(`${API}/comments/${id}`, {
+    method: "PATCH",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ content: newContent })
+  });
+
+  loadComments();
+}
+
+/* ===== DELETE COMMENT (SOFT) ===== */
+async function deleteComment(id) {
+  await fetch(`${API}/comments/${id}`, {
+    method: "PATCH",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ isDeleted: true })
+  });
+
+  loadComments();
 }

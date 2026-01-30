@@ -1,28 +1,52 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Chuột Logitech",
       "price": 350000,
-      "image": "images/chuot.jpg"
+      "image": "images/chuot.jpg",
+      "isDeleted": false
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Bàn phím cơ",
       "price": 1200000,
-      "image": "images/banphim.jpg"
+      "image": "images/banphim.jpg",
+      "isDeleted": false
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Tai nghe Gaming",
       "price": 800000,
-      "image": "images/tainghe.jpg"
+      "image": "images/tainghe.jpg",
+      "isDeleted": true
     },
     {
       "id": 4,
       "name": "Màn hình 24 inch",
       "price": 3200000,
-      "image": "images/manhinh.jpg"
+      "image": "images/manhinh.jpg",
+      "isDeleted": false
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "productId": "1",
+      "content": "Sản phẩm dùng rất ổn",
+      "isDeleted": true
+    },
+    {
+      "id": "2",
+      "productId": "1",
+      "content": "Giá hơi cao",
+      "isDeleted": true
+    },
+    {
+      "id": "3",
+      "productId": "4",
+      "content": "dởm",
+      "isDeleted": true
     }
   ]
 }
